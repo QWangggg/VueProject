@@ -12,10 +12,10 @@ import '../static/css/mui.css'
 let vm = new Vue({
     el: '#app',
     router,
-    render: function(createElement){
+    render: function (createElement) {
         return createElement(app)
     },
-    created(){
+    created() {
         // Add a request interceptor
         this.axios.interceptors.request.use(function (config) {
             // Do something before request is sent
@@ -27,11 +27,11 @@ let vm = new Vue({
         });
 
         // Add a response interceptor
-        this.axios.interceptors.response.use((response)=> {
+        this.axios.interceptors.response.use((response) => {
             // Do something with response data
             this.$indicator.close()
             return response;
-        }, (error)=> {
+        }, (error) => {
             // Do something with response error
             this.$indicator.close()
             return Promise.reject(error);

@@ -1,5 +1,5 @@
 <template>
-  <div class="mui-content">
+  
     <!--  评论 -->
       <div class="comment">
         <!--添加评论-->
@@ -27,7 +27,7 @@
             <button class="mui-btn mui-btn-primary mui-btn-outlined" @click="getMoreData(index)">加载更多</button>
         </div>
 
-    </div>
+    
   </div>
 
 </template>
@@ -49,17 +49,17 @@
         },
         methods: {            
             getData(pageindex=1){
-                var id = this.id.slice(1)
-                // console.log('pageindex'+pageindex)
                 this.$http
-                    .get('/api/getcomments/'+id+'?pageindex='+pageindex)
+                    .get('getcomments/'+this.id+'?pageindex='+pageindex)
                     .then(res=>{
                         if(res.status === 200 && res.data.status === 0 && res.data.message.length > 0){
                             if (this.bool) {
                                 this.myComments = this.myComments.concat(res.data.message)
                             } else {
-                                this.myComments.unshift(res.data.message[0])     
-                                this.myComments.pop()     
+                                this.myComments.unshift(res.data.message[0])
+                                if(this.myComments.length >10) {
+                                    this.myComments.pop()
+                                }          
                             }
                             
                             // this.myComments = res.data.message
@@ -69,10 +69,8 @@
                     .catch(err => console.error(err))
             },
             postData(){
-                console.log(this.userContent)
-                var id = this.id.slice(1)
                 this.$http
-                    .post('/api/postcomment/'+id,'content='+this.userContent)
+                    .post('postcomment/'+this.id,'content='+this.userContent)
                     .then(res=>{
                         if(res.status ===200 && res.data.status === 0){
                             this.bool = false

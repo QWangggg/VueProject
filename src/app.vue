@@ -24,9 +24,11 @@
             </router-link>
         </nav>
        
-
-        <router-view></router-view>
-        <router-view name="bbb"></router-view>
+        <div class="mui-content">
+            <router-view></router-view>
+            <router-view name="bbb"></router-view>
+        </div>
+        
     </div> 
 </template>
 
@@ -41,6 +43,8 @@
 </script>
 
 <style scoped>
-    
+    .mui-content {
+        background-color: #fff;
+    }
 </style>
 

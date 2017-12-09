@@ -1,12 +1,22 @@
 # VueProject
 vue project practice
 
-## 第二次提交
-- 页面重构： filters router plugins
-- 增加页面加载的indicator效果
-<<<<<<< HEAD
+## Config：
+- router.js (vue,vue-router)
+- filters.js (vue,moment)
+- plugins.js (vue,axios,mint-ui)
 
-## 提交toast小功能
-- 提交评论显示提交成功
-=======
->>>>>>> b10949c9d4b2bfc685eefbaabc2a103f25cf5c2b
+## Components
+- swipe (mint-ui)
+- 
+
+
+## MY EXPERIENCE
+- props for route:
+    ```
+    1.routes:[{name:'anything',path:'/somewhere/:id',props:true}]
+      <router-link :to="{name:'anything',params:{id: something.id}}"></router-link>
+    2.routes:[path:'/somewhere/:id',props:true]
+      <router-link v-bind:"{'to':'/somewhere/'+something.id}"></router-link>
+    3.<router-link :to="{path: '/somewhere/'+something.id}"></router-link>
+    ```

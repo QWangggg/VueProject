@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div>
         <div class="my_article" v-for="item in msg" :key="item.id">
             <h4 class="my_title">{{item.title}}</h4>
             <div class="my_time">
@@ -32,7 +32,7 @@
             getData(){
                 // console.log(this.id)
                 var id = this.$route.params.id.slice(1)
-                var url = 'http://127.0.0.1:8899/api/getnew/' + id
+                var url = 'getnew/' + id
                 console.log(url)
                 this.$http.get(url).then(res=>{
                     this.msg = res.data.message
@@ -53,13 +53,6 @@
 </script>
 
 <style scoped>
-    .content {
-        /* position: absolute; */
-        padding-top: 44px;
-        padding-bottom: 50px;
-        width:100%;
-        background-color: #fff;
-    }
     .my_title {
         font-size: 16px;
         padding: 5px;
