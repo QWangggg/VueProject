@@ -76,7 +76,9 @@
                     .then(res=>{
                         if(res.status ===200 && res.data.status === 0){
                             this.bool = false
+                            this.$toast('提交成功')
                             this.getData(1)
+                            this.userContent = ''
                         }
                     })
             },
