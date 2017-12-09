@@ -19,12 +19,12 @@
         <div class="item" v-for="(item, index) in myComments" :key="index">
             <div class="content">{{item.content}}</div>
             <div>
-                <span class="user">{{item.user_name}}</span>  <span>{{item.addtime | fmtdate('YYYY-MM-DD HH-mm-ss')}}</span>
+                <span class="user">{{item.user_name}}</span>  <span>{{item.add_time | fmtdate('YYYY-MM-DD HH:mm:ss')}}</span>
             </div>
         </div>
 
         <div class="more">
-            <button class="mui-btn mui-btn-primary mui-btn-outlined">加载更多</button>
+            <button class="mui-btn mui-btn-primary mui-btn-outlined" @click="getMoreData(index)">加载更多</button>
         </div>
 
     </div>
@@ -38,7 +38,9 @@
         data(){
             return {
                 myComments:[],
-                userContent: ''
+                userContent: '',
+                index:1,
+                bool: true
             }
         },
         props:['id'],
@@ -46,15 +48,23 @@
             this.getData()
         },
         methods: {            
-            getData(){
+            getData(pageindex=1){
                 var id = this.id.slice(1)
+                // console.log('pageindex'+pageindex)
                 this.$http
-                    .get('/api/getcomments/'+id+'?pageindex=1')
+                    .get('/api/getcomments/'+id+'?pageindex='+pageindex)
                     .then(res=>{
                         if(res.status === 200 && res.data.status === 0 && res.data.message.length > 0){
-                            this.myComments = res.data.message
+                            if (this.bool) {
+                                this.myComments = this.myComments.concat(res.data.message)
+                            } else {
+                                this.myComments.unshift(res.data.message[0])     
+                                this.myComments.pop()     
+                            }
+                            
+                            // this.myComments = res.data.message
                             // console.log(this.myComments)
-                        }
+                        } 
                     })
                     .catch(err => console.error(err))
             },
@@ -63,6 +73,18 @@
                 var id = this.id.slice(1)
                 this.$http
                     .post('/api/postcomment/'+id,'content='+this.userContent)
+                    .then(res=>{
+                        if(res.status ===200 && res.data.status === 0){
+                            this.bool = false
+                            this.getData(1)
+                        }
+                    })
+            },
+            getMoreData(){
+                this.index ++;
+                this.bool = true;
+                // console.log(this.index)
+                this.getData(this.index)
             }
         }
     }
