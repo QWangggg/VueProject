@@ -9,14 +9,11 @@
             
             <div class="my_line"></div>
             <p class="my_content" v-html="item.content"></p>
-        </div>
-        
+        </div> 
     </div>
 </template>
 
 <script>
-    import '../../../static/css/style.css'
-    import axios from 'axios'
     export default {
         data: function(){
             return {
@@ -25,18 +22,13 @@
         },
         created: function(){
             this.getData()
-            console.log(axios)
         },
         props: ['id'],
         methods: {
             getData(){
-                // console.log(this.id)
-                var id = this.$route.params.id.slice(1)
-                var url = 'getnew/' + id
-                console.log(url)
+                var url = 'getnew/' + this.id
                 this.$http.get(url).then(res=>{
                     this.msg = res.data.message
-                    // console.log(that.msg)
                 })
             }
         },

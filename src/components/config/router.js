@@ -8,14 +8,16 @@ import home from '../home/home.vue'
 import cart from '../cart/cart.vue'
 import member from '../member/member.vue'
 import search from '../search/search.vue'
-import news from '../news/news.vue'
-import detail from '../detail/detail.vue'
 import back from '../../back.vue'
-import newsComment from '../detail/newsDetail-comment.vue'
-import shareDetail from '../home/share/shareDetail.vue'
 
-//图片分享
+//home组件下新闻资讯
+import news from '../home/news/news.vue'
+import detail from '../home/news/detail/detail.vue'
+import newsComment from '../home/news/detail/newsDetail-comment.vue'
+
+//home组件下图片分享
 import share from '../home/share/share.vue'
+import shareDetail from '../home/share/shareDetail.vue'
 
 let router = new VueRouter({
     linkActiveClass: 'mui-active',
@@ -25,11 +27,14 @@ let router = new VueRouter({
         { path: '/cart', components: { default: cart, aaa: back } },
         { path: '/member', components: { default: member, aaa: back } },
         { path: '/search', components: { default: search, aaa: back } },
+
+        //news
         { path: '/news', components: { default: news, aaa: back } },
-        {path: '/share', components: {default:share, aaa:back} },
-        
-        {name: 'detail', path: '/detail/:id', components: { default: detail, aaa: back, bbb: newsComment }, props: { default: true, aaa: true, bbb: true } },
-        {name: 'shareDetail', path: '/shareDetail/:id', components: {default:shareDetail, aaa:back, bbb:newsComment}, props: {default: true, bbb:true}}
+        { name: 'detail', path: '/detail/:id', components: { default: detail, aaa: back, bbb: newsComment }, props: { default: true, aaa: true, bbb: true } },
+        //share
+        { path: '/share', components: { default: share, aaa: back } },
+        { name: 'shareDetail', path: '/shareDetail/:id', components: { default: shareDetail, aaa: back, bbb: newsComment }, props: { default: true, bbb: true } }
+
 
     ]
 })

@@ -2,7 +2,7 @@
     <mt-swipe :auto="4000">
         <mt-swipe-item v-for="item in swipeMsg" :key="item.url">
             <a href="#">
-                <img v-bind:src="item.img" alt="">
+                <img v-bind:src="item.img" alt="轮播图">
             </a>
         </mt-swipe-item>
     </mt-swipe>
@@ -21,7 +21,6 @@
                 var that = this;
                 this.$http.get(this.imgUrl).then(function(res){
                     that.swipeMsg = res.data.message
-                    console.log(that.swipeMsg)
                 })
             }
         },
