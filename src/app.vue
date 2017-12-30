@@ -1,8 +1,7 @@
 <template>
     <div class="container">
          <header class="mui-bar mui-bar-nav">
-            <!-- <router-link to="/" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></router-link> -->
-            <router-view name="aaa"></router-view>
+            <a v-if="backShow" @click="goback" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
             <h1 class="mui-title"></h1>
         </header>
         <nav class="mui-bar mui-bar-tab">
@@ -15,7 +14,7 @@
                 <span class="mui-tab-label">会员</span>
             </router-link>
             <router-link to="/cart" class="mui-tab-item">
-                <span class="mui-icon mui-icon-contact"><span class="mui-badge">9</span></span>
+                <span class="mui-icon mui-icon-contact"><span class="mui-badge">{{ badgeNum }}</span></span>
                 <span class="mui-tab-label">购物车</span>
             </router-link>
             <router-link to="/search" class="mui-tab-item">
@@ -24,20 +23,63 @@
             </router-link>
         </nav>
        
-        <div class="mui-content">
+        
             <router-view></router-view>
             <router-view name="bbb"></router-view>
-        </div>
+        
         
     </div> 
 </template>
 
 <script>
+    import vueObj from './components/config/communication.js'
+    // 获取本地存储购物车数据
+    import { getData } from './components/common/localstoragehelp.js'
     export default{
         data: function(){
             return {
-                msg:'hello'
+                msg:'hello',
+                backShow: false,
+                badgeNum: 0,
+                data: []
             }
+        },
+        methods: {
+            goback: function(){
+                this.$router.back()
+            },
+            watchPath: function(path){
+                let arr = ['/home','/member', 'cart', 'search'];
+                if ( arr.indexOf(path) == -1 ) {
+                    this.backShow = true
+                } else {
+                    this.backShow = false
+                }
+            },
+        },
+        created(){
+            this.watchPath(this.$route.path);
+            var that = this
+            vueObj.$on('addCartAmount', function(value){
+                that.badgeNum = that.badgeNum + value
+            })
+            vueObj.$on('changeCart', function(obj){
+                if(obj.type == 'sub') {
+                    that.badgeNum--
+                }
+                if(obj.type == 'add') {
+                    that.badgeNum++
+                }
+            })
+            this.data = getData()
+            this.data.forEach(function(item) {
+                this.badgeNum += item.count
+            }, this);
+        },
+        watch: {
+            "$route":function(newValue){
+                this.watchPath(newValue.path)
+            },
         }
     }
 </script>

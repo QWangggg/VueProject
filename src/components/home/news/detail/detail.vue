@@ -14,6 +14,7 @@
 </template>
 
 <script>
+    import '../../../../../static/css/style.css'
     export default {
         data: function(){
             return {
